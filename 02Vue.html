@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 数据渲染</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <ul>
+            <li v-for="item in news">
+                <a href="{{item.url}}" target="_blank">
+                    <div class="tit">{{item.title}}</div>
+                    <div class="date">{{item.date}}</div>
+                    <div class="category">{{item.category}}</div>
+                    <div class="pic"><img v-bind:src="item.thumbnail_pic_s" alt=""></div>
+                </a>
+            </li>
+        </ul>
+        {{msg}}
+    </div>
+
+    <script src="./vue.js"></script>
+    <script src="./axios.js"></script>
+    <script>
+        axios.get('./news.json', {})
+            .then(function (response) {
+                var result = response.data.result.data;
+                // console.log(result);
+                new Vue({
+                    el: '#app',
+                    data: {
+                        news: result
+                    }
+                })
+            })
+            .catch(function (error) {
+                new Vue({
+                    el: '#app',
+                    data: {
+                        msg: error
+                    }
+                })
+            });
+    </script>
+
+
+</body>
+
+</html>
